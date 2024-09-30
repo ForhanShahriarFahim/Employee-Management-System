@@ -61,4 +61,39 @@ class EmployeeController extends Controller
         return redirect()->route('employees.index');
     }
 
+    //Create
+    public function create()
+    {
+        return view('employees.create');
+    }
+
+    //Store
+    public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'joining_date' => 'required|date|after:1900-01-01',  // Ensure a valid date in the future
+        'job_title' => 'required|string|max:255',
+        'salary' => 'required|numeric|min:0|max:1000000',  // Limit the salary to a reasonable range
+        'email' => 'required|email|unique:employees,email',
+        'mobile_no' => 'required|string|regex:/^[0-9]{10,15}$/',  // Ensures 10-15 digit numbers
+        'address' => 'required|string|max:255'
+    ]);
+
+    // Store employee data if validation passes
+    $employee = Employee::create($request->all());
+    return redirect()->route('employee.show', $employee->id);
+}
+
+
+    //Search
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $employees = Employee::where('name', 'like', '%' . $search . '%')
+        ->paginate(10);
+
+        return View('employees.index')->with('employees', $employees);
+    }
+
 }

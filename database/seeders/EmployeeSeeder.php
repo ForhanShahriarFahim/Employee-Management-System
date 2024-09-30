@@ -5,16 +5,16 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Employee;
 
-class DatabaseSeeder extends Seeder
+class EmployeeSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        // Employee::factory(10)->create();
+        //
+        Employee::factory(100)->create();
     }
 }
